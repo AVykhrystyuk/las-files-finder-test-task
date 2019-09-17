@@ -12,19 +12,25 @@ namespace LasFinder.Impl
 
         public PrintMode PrintMode { get; set; }
 
+        private static string FileName = "app-settings.json";
+
+        private static string FileDirectory => Directory.GetCurrentDirectory();
+
+        public static string SuggestJsonFilePath() => Path.Combine(FileDirectory, FileName);
+
         public static IConfiguration FetchFromJsonFile()
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("app-settings.json");
+                .SetBasePath(FileDirectory)
+                .AddJsonFile(FileName);
 
             var configuration = builder.Build();
 
             return new JsonConfiguration
             {
-                PageSize = int.Parse(configuration["pageSize"]),
-                LasFilesFolder = configuration["lasFilesFolder"],
-                PrintMode = configuration["printMode"].Equals("Table", StringComparison.InvariantCultureIgnoreCase)
+                PageSize = int.Parse(configuration["pageSize"].Trim()),
+                LasFilesFolder = configuration["lasFilesFolder"].Trim(),
+                PrintMode = configuration["printMode"].Trim().Equals("Table", StringComparison.InvariantCultureIgnoreCase)
                     ? PrintMode.Table
                     : PrintMode.List,
             };
