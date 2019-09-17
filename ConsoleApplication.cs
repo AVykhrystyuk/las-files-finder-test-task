@@ -51,7 +51,7 @@ namespace LasFinder
 
         private void RunLoopIteration()
         {
-            Console.Write("log-finder>");
+            Console.Write("log-finder> ");
             var commandOrSearchTerm = Console.ReadLine().ToLowerInvariant().Trim();
             switch (commandOrSearchTerm)
             {
