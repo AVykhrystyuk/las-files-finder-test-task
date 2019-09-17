@@ -2,10 +2,10 @@ using System;
 
 namespace LasFinder
 {
-    public interface ILogStorage : IDisposable
+    public interface ILasFileIndexedStorage : IDisposable
     {
         void RebuildIndex();
 
-        DataRecordPage SearchByLogType(string logType, int pageSize = 20);
+        LasFileRecordPage SearchByLogType(string logType, int pageSize = 20);
     }
 }

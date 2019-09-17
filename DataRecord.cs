@@ -1,6 +1,6 @@
 namespace LasFinder
 {
-    public class DataRecord
+    public class LasFileRecord
     {
         public string Filename { get; set; } = string.Empty;
 

@@ -9,7 +9,7 @@ using Lucene.Net.Store;
 
 namespace LasFinder.Impl
 {
-    public class LuceneLogStorage : ILogStorage
+    public class LuceneLasFileStorage : ILasFileIndexedStorage
     {
         static LuceneVersion AppLuceneVersion = LuceneVersion.LUCENE_48;
 
@@ -19,7 +19,7 @@ namespace LasFinder.Impl
         private DirectoryReader? directoryReader;
 
 
-        private LuceneLogStorage(DirectoryInfo indexLocation)
+        private LuceneLasFileStorage(DirectoryInfo indexLocation)
         {
             this.indexLocation = indexLocation;
         }
@@ -43,7 +43,7 @@ namespace LasFinder.Impl
             using (var analyzer = new StandardAnalyzer(AppLuceneVersion))
             using (var writer = new IndexWriter(this.FSDirectory, new IndexWriterConfig(AppLuceneVersion, analyzer)))
             {
-                var sourceRecords = DataRecordMother.Create();
+                var sourceRecords = LasFileRecordMother.Create();
 
                 foreach (var sourceRecord in sourceRecords)
                 {
@@ -56,18 +56,18 @@ namespace LasFinder.Impl
             }
         }
 
-        public DataRecordPage SearchByLogType(string logType, int pageSize)
+        public LasFileRecordPage SearchByLogType(string logType, int pageSize)
         {
             var searcher = new IndexSearcher(this.DirectoryReader);
 
             var loweredLogType = logType.ToLowerInvariant();
-            var term = new Term(nameof(DataRecord.LogType), loweredLogType);
+            var term = new Term(nameof(LasFileRecord.LogType), loweredLogType);
             var query = new PrefixQuery(term);
 
             var searchResult = searcher.Search(query, n: pageSize);
             var hits = searchResult.ScoreDocs;
 
-            var records = new List<DataRecord>(hits.Length);
+            var records = new List<LasFileRecord>(hits.Length);
 
             foreach (var hit in hits)
             {
@@ -76,16 +76,16 @@ namespace LasFinder.Impl
                 records.Add(record);
             }
 
-            return new DataRecordPage
+            return new LasFileRecordPage
             {
                 TotalCount = searchResult.TotalHits,
                 Records = records,
             };
         }
 
-        public static LuceneLogStorage Build(DirectoryInfo indexLocation)
+        public static LuceneLasFileStorage Build(DirectoryInfo indexLocation)
         {
-            var luceneLogStorage = new LuceneLogStorage(indexLocation);
+            var luceneLogStorage = new LuceneLasFileStorage(indexLocation);
             if (!indexLocation.Exists)
             {
                 luceneLogStorage.RebuildIndex();
@@ -99,16 +99,16 @@ namespace LasFinder.Impl
             this.fsDirectory?.Dispose();
         }
 
-        private static DataRecord BuildRecord(Document document)
+        private static LasFileRecord BuildRecord(Document document)
         {
-            return new DataRecord
+            return new LasFileRecord
             {
-                Filename = document.Get(nameof(DataRecord.Filename)),
-                LogType = document.Get(nameof(DataRecord.LogType)),
+                Filename = document.Get(nameof(LasFileRecord.Filename)),
+                LogType = document.Get(nameof(LasFileRecord.LogType)),
             };
         }
 
-        private static Document BuildDocument(DataRecord record)
+        private static Document BuildDocument(LasFileRecord record)
         {
             return new Document
             {

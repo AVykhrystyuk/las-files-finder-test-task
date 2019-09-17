@@ -15,9 +15,9 @@ namespace LasFinder
             var currentDirectory = Directory.GetCurrentDirectory();
             var indexLocation = new DirectoryInfo(Path.Combine(currentDirectory, "Index", "Lucene"));
 
-            using (var logStorage = LuceneLogStorage.Build(indexLocation))
+            using (var fileIndexedStorage = LuceneLasFileStorage.Build(indexLocation))
             {
-                new ConsoleApplication(logStorage, configuration).Run();
+                new ConsoleApplication(fileIndexedStorage, configuration).Run();
             }
         }
     }

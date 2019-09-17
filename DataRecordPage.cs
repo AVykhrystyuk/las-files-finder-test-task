@@ -2,12 +2,12 @@ using System.Collections.Generic;
 
 namespace LasFinder
 {
-    public class DataRecordPage
+    public class LasFileRecordPage
     {
-        private static IReadOnlyList<DataRecord> EmptyRecords = new DataRecord[0];
+        private static IReadOnlyList<LasFileRecord> EmptyRecords = new LasFileRecord[0];
 
         public int TotalCount { get; set; }
 
-        public IReadOnlyList<DataRecord> Records { get; set; } = EmptyRecords;
+        public IReadOnlyList<LasFileRecord> Records { get; set; } = EmptyRecords;
     }
 }

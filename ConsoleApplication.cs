@@ -10,12 +10,12 @@ namespace LasFinder
         private string assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
 
         private bool isRunning = false;
-        private readonly ILogStorage logStorage;
+        private readonly ILasFileIndexedStorage fileIndexedStorage;
         private readonly IConfiguration configuration;
 
-        public ConsoleApplication(ILogStorage logStorage, IConfiguration configuration)
+        public ConsoleApplication(ILasFileIndexedStorage fileIndexedStorage, IConfiguration configuration)
         {
-            this.logStorage = logStorage;
+            this.fileIndexedStorage = fileIndexedStorage;
             this.configuration = configuration;
         }
 
@@ -39,7 +39,7 @@ namespace LasFinder
                 case ":index":
                 case ":i":
                     Console.WriteLine("Rebuilding index...");
-                    this.logStorage.RebuildIndex();
+                    this.fileIndexedStorage.RebuildIndex();
                     Console.WriteLine("Index successfully rebuilt!");
                     Console.WriteLine();
                     break;
@@ -59,7 +59,7 @@ namespace LasFinder
 
                 default:
                     Console.WriteLine($"Searching files for '{commandOrSearchTerm}' term...");
-                    var records = this.logStorage.SearchByLogType(commandOrSearchTerm, this.configuration.PageSize);
+                    var records = this.fileIndexedStorage.SearchByLogType(commandOrSearchTerm, this.configuration.PageSize);
                     this.PrintRecords(records);
                     break;
             }
@@ -85,7 +85,7 @@ namespace LasFinder
             }
         }
 
-        private void PrintRecords(DataRecordPage recordPage)
+        private void PrintRecords(LasFileRecordPage recordPage)
         {
             var records = recordPage.Records;
 
@@ -113,14 +113,14 @@ namespace LasFinder
             }
         }
 
-        private void PrintTable(IReadOnlyList<DataRecord> records)
+        private void PrintTable(IReadOnlyList<LasFileRecord> records)
         {
-            ConsoleTable.From<DataRecord>(records)
+            ConsoleTable.From<LasFileRecord>(records)
                 .Configure(o => o.NumberAlignment = Alignment.Right)
                 .Write(Format.Alternative);
         }
 
-        private void PrintList(IReadOnlyList<DataRecord> records)
+        private void PrintList(IReadOnlyList<LasFileRecord> records)
         {
             Console.WriteLine();
 
