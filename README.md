@@ -22,13 +22,8 @@ In project folder:
 
 ## How to use
 
-Once started, application will read and index LAS files from the folder specified in `app-settings.json`:
+Once started, application will read and index LAS files from the folder specified in `app-settings.json`.
 
-```bash
-> [Initializing]: Reading LAS files...
-> [Initializing]: Building index...
-> [Initializing]: Index successfully built!
-```
 Type a search term for log type and press `enter`:
 ```bash
 log-finder> pa
@@ -46,6 +41,7 @@ Searching files for 'pa' term...
 ## Help information
 
 ```bash
+log-finder> :help
 Well Log Finder (1.x.x)
 Usage: Enter a command or a search term for log type.
 Commands:
