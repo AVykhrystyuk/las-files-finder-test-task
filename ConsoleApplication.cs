@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using ConsoleTables;
 
 namespace LasFinder
 {
     public class ConsoleApplication
     {
+        private string assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
+
         private bool isRunning = false;
         private readonly ILogStorage logStorage;
         private readonly IConfiguration configuration;
@@ -65,7 +68,7 @@ namespace LasFinder
         private void PrintHelpInfo()
         {
             Console.WriteLine();
-            Console.WriteLine("Log Finder");
+            Console.WriteLine($"Well Log Finder ({this.assemblyVersion})");
             Console.WriteLine("Usage: Enter a command or a search term for log type.");
 
             Console.WriteLine("Commands:");
