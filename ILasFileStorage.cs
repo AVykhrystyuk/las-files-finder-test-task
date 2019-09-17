@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LasFinder
 {
     public interface ILasFileStorage
     {
-        IReadOnlyList<LasFileRecord> FetchFileRecords();
+        Task<IReadOnlyList<LasFileRecord>> FetchFileRecords();
     }
 }

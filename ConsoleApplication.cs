@@ -43,7 +43,7 @@ namespace LasFinder
 
             Console.WriteLine();
             Console.WriteLine("[Initializing]: Reading LAS files...");
-            var fileRecords = this.fileStorage.FetchFileRecords();
+            var fileRecords = this.fileStorage.FetchFileRecords().Result;
             Console.WriteLine("[Initializing]: Building index...");
             this.fileIndexedStorage.RebuildIndex(fileRecords);
             Console.WriteLine("[Initializing]: Index successfully built!");
@@ -58,7 +58,7 @@ namespace LasFinder
                 case ":index":
                 case ":i":
                     Console.WriteLine("Reading files...");
-                    var fileRecords = this.fileStorage.FetchFileRecords();
+                    var fileRecords = this.fileStorage.FetchFileRecords().Result;
                     Console.WriteLine("Re-building index...");
                     this.fileIndexedStorage.RebuildIndex(fileRecords);
                     Console.WriteLine("Index successfully re-built!");

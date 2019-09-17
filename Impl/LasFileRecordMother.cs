@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 
 namespace LasFinder.Impl
 {
+    [Obsolete("Use LasFileReader instead. This is just a fake data provider")]
     public static class LasFileRecordMother
     {
         public static IReadOnlyList<LasFileRecord> Create()
@@ -25,7 +27,7 @@ namespace LasFinder.Impl
                 new LasFileRecord
                 {
                     Filename = "asdasd  dasd 7125-4-asdadsadad.LAS",
-                    LogType = "test 123456 asdasd", // LOG TYPE
+                    LogType = string.Empty, // LOG TYPE
                 },
             };
         }

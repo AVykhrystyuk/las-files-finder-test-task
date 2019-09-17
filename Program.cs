@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using LasFinder.Configuration;
 using LasFinder.Configuration.Impl;
@@ -33,7 +33,7 @@ namespace LasFinder
                 return;
             }
 
-            var fileStorage = new LasFileStorage();
+            var fileStorage = new LasFileStorage(lasFilesDirectory, new LasFileReader(configuration.LasFilesConfiguration.LogTypeField));
 
             var currentDirectory = Directory.GetCurrentDirectory();
             var indexLocation = new DirectoryInfo(Path.Combine(currentDirectory, "Index", "Lucene"));

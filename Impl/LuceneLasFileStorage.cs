@@ -103,9 +103,11 @@ namespace LasFinder.Impl
 
         private static Document BuildDocument(LasFileRecord record)
         {
+            var logType = string.IsNullOrWhiteSpace(record.LogType) ? "EMPTY" : record.LogType;
+
             return new Document
             {
-                new TextField(nameof(record.LogType), record.LogType, Field.Store.YES),
+                new TextField(nameof(record.LogType), logType, Field.Store.YES),
 
                 new StoredField(nameof(record.Filename), record.Filename),
             };
