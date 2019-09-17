@@ -1,12 +1,12 @@
-namespace LasFinder
+namespace LasFinder.Configuration
 {
     public interface IConfiguration
     {
-        string LasFilesFolder { get; }
-
         PrintMode PrintMode { get; }
 
         int PageSize { get; }
+
+        ILasFilesConfiguration LasFilesConfiguration { get; }
     }
 
     public enum PrintMode

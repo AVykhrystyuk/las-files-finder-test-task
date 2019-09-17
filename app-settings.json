@@ -1,5 +1,8 @@
 {
-    "lasFilesFolder": "LasFilesFolder",
     "pageSize": 100,
-    "printMode": "Table"
+    "printMode": "Table",
+    "lasFiles": {
+        "sourceFolder": "LasFilesFolder",
+        "logTypeField": "LTYP"
+    }
 }

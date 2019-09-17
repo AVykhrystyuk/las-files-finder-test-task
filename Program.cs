@@ -1,5 +1,7 @@
-﻿using System;
+using System;
 using System.IO;
+using LasFinder.Configuration;
+using LasFinder.Configuration.Impl;
 using LasFinder.Impl;
 
 namespace LasFinder
@@ -15,13 +17,17 @@ namespace LasFinder
         {
             IConfiguration configuration = JsonConfiguration.FetchFromJsonFile();
 
-            if (string.IsNullOrWhiteSpace(configuration.LasFilesFolder)) {
+            var lasFilesSourceFolder = configuration.LasFilesConfiguration.SourceFolder;
+
+            if (string.IsNullOrWhiteSpace(lasFilesSourceFolder))
+            {
                 Console.WriteLine($"LAS file folder is not provided ('lasFilesFolder' property) in the settings file located at '{JsonConfiguration.SuggestJsonFilePath()}'");
                 return;
             }
 
-            var lasFilesDirectory = new DirectoryInfo(Path.GetFullPath(configuration.LasFilesFolder));
-            if (!lasFilesDirectory.Exists) {
+            var lasFilesDirectory = new DirectoryInfo(Path.GetFullPath(lasFilesSourceFolder));
+            if (!lasFilesDirectory.Exists)
+            {
                 Console.WriteLine($"LAS file folder cannot be found at '{lasFilesDirectory.FullName}'");
                 Console.WriteLine($"The folder location can be changed in the settings file located at '{JsonConfiguration.SuggestJsonFilePath()}'");
                 return;

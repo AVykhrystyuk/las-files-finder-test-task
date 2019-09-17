@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using ConsoleTables;
+using LasFinder.Configuration;
 
 namespace LasFinder
 {
