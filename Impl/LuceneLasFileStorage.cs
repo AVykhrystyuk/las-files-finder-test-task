@@ -19,7 +19,7 @@ namespace LasFinder.Impl
         private DirectoryReader? directoryReader;
 
 
-        private LuceneLasFileStorage(DirectoryInfo indexLocation)
+        public LuceneLasFileStorage(DirectoryInfo indexLocation)
         {
             this.indexLocation = indexLocation;
         }
@@ -27,7 +27,12 @@ namespace LasFinder.Impl
         private FSDirectory FSDirectory => fsDirectory ?? (fsDirectory = FSDirectory.Open(this.indexLocation));
         private DirectoryReader DirectoryReader => directoryReader ?? (directoryReader = DirectoryReader.Open(this.FSDirectory));
 
-        public void RebuildIndex()
+        public bool HasIndex()
+        {
+            return this.indexLocation.Exists;
+        }
+
+        public void RebuildIndex(IReadOnlyList<LasFileRecord> records)
         {
             if (this.indexLocation.Exists)
             {
@@ -43,11 +48,9 @@ namespace LasFinder.Impl
             using (var analyzer = new StandardAnalyzer(AppLuceneVersion))
             using (var writer = new IndexWriter(this.FSDirectory, new IndexWriterConfig(AppLuceneVersion, analyzer)))
             {
-                var sourceRecords = LasFileRecordMother.Create();
-
-                foreach (var sourceRecord in sourceRecords)
+                foreach (var record in records)
                 {
-                    var document = BuildDocument(sourceRecord);
+                    var document = BuildDocument(record);
                     writer.AddDocument(document);
                 }
 
@@ -81,16 +84,6 @@ namespace LasFinder.Impl
                 TotalCount = searchResult.TotalHits,
                 Records = records,
             };
-        }
-
-        public static LuceneLasFileStorage Build(DirectoryInfo indexLocation)
-        {
-            var luceneLogStorage = new LuceneLasFileStorage(indexLocation);
-            if (!indexLocation.Exists)
-            {
-                luceneLogStorage.RebuildIndex();
-            }
-            return luceneLogStorage;
         }
 
         public void Dispose()

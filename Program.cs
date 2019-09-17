@@ -12,12 +12,14 @@ namespace LasFinder
 
             IConfiguration configuration = JsonConfiguration.FetchFromJsonFile();
 
+            var fileStorage = new LasFileStorage();
+
             var currentDirectory = Directory.GetCurrentDirectory();
             var indexLocation = new DirectoryInfo(Path.Combine(currentDirectory, "Index", "Lucene"));
 
-            using (var fileIndexedStorage = LuceneLasFileStorage.Build(indexLocation))
+            using (var fileIndexedStorage = new LuceneLasFileStorage(indexLocation))
             {
-                new ConsoleApplication(fileIndexedStorage, configuration).Run();
+                new ConsoleApplication(fileIndexedStorage, fileStorage, configuration).Run();
             }
         }
     }

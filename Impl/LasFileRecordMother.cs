@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace LasFinder
+namespace LasFinder.Impl
 {
     public static class LasFileRecordMother
     {

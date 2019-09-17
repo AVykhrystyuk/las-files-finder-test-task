@@ -11,16 +11,20 @@ namespace LasFinder
 
         private bool isRunning = false;
         private readonly ILasFileIndexedStorage fileIndexedStorage;
+        private readonly ILasFileStorage fileStorage;
         private readonly IConfiguration configuration;
 
-        public ConsoleApplication(ILasFileIndexedStorage fileIndexedStorage, IConfiguration configuration)
+        public ConsoleApplication(ILasFileIndexedStorage fileIndexedStorage, ILasFileStorage fileStorage, IConfiguration configuration)
         {
             this.fileIndexedStorage = fileIndexedStorage;
+            this.fileStorage = fileStorage;
             this.configuration = configuration;
         }
 
         public void Run()
         {
+            this.BuildIndexIfMissing();
+
             this.PrintHelpInfo();
 
             this.isRunning = true;
@@ -28,6 +32,20 @@ namespace LasFinder
             {
                 this.RunLoopIteration();
             }
+        }
+
+        private void BuildIndexIfMissing()
+        {
+            if (this.fileIndexedStorage.HasIndex()) {
+                return;
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("[Initializing]: Reading LAS files...");
+            var fileRecords = this.fileStorage.FetchFileRecords();
+            Console.WriteLine("[Initializing]: Building index...");
+            this.fileIndexedStorage.RebuildIndex(fileRecords);
+            Console.WriteLine("[Initializing]: Index successfully built!");
         }
 
         private void RunLoopIteration()
@@ -38,9 +56,11 @@ namespace LasFinder
             {
                 case ":index":
                 case ":i":
-                    Console.WriteLine("Rebuilding index...");
-                    this.fileIndexedStorage.RebuildIndex();
-                    Console.WriteLine("Index successfully rebuilt!");
+                    Console.WriteLine("Reading files...");
+                    var fileRecords = this.fileStorage.FetchFileRecords();
+                    Console.WriteLine("Re-building index...");
+                    this.fileIndexedStorage.RebuildIndex(fileRecords);
+                    Console.WriteLine("Index successfully re-built!");
                     Console.WriteLine();
                     break;
 

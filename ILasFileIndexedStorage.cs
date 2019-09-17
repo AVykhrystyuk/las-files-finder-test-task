@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
 
 namespace LasFinder
 {
     public interface ILasFileIndexedStorage : IDisposable
     {
-        void RebuildIndex();
+        bool HasIndex();
+
+        void RebuildIndex(IReadOnlyList<LasFileRecord> records);
 
         LasFileRecordPage SearchByLogType(string logType, int pageSize = 20);
     }
