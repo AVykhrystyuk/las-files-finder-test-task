@@ -37,11 +37,11 @@ namespace LasFinder
 
         private void BuildIndexIfMissing()
         {
-            if (this.fileIndexedStorage.HasIndex()) {
+            if (this.fileIndexedStorage.HasIndex())
+            {
                 return;
             }
 
-            Console.WriteLine();
             Console.WriteLine("[Initializing]: Reading LAS files...");
             var fileRecords = this.fileStorage.FetchFileRecords().Result;
             Console.WriteLine("[Initializing]: Building index...");
@@ -62,33 +62,32 @@ namespace LasFinder
                     Console.WriteLine("Re-building index...");
                     this.fileIndexedStorage.RebuildIndex(fileRecords);
                     Console.WriteLine("Index successfully re-built!");
-                    Console.WriteLine();
-                    break;
+                    return;
 
                 case ":help":
                 case ":h":
                     this.PrintHelpInfo();
-                    Console.WriteLine();
-                    break;
+                    return;
 
                 case ":quit":
                 case ":q":
                     this.isRunning = false;
                     Console.WriteLine("Good bye!");
-                    Console.WriteLine();
-                    break;
-
-                default:
-                    Console.WriteLine($"Searching files for '{commandOrSearchTerm}' term...");
-                    var records = this.fileIndexedStorage.SearchByLogType(commandOrSearchTerm, this.configuration.PageSize);
-                    this.PrintRecords(records);
-                    break;
+                    return;
             }
+
+            if (string.IsNullOrEmpty(commandOrSearchTerm))
+            {
+                return;
+            }
+
+            Console.WriteLine($"Searching files for '{commandOrSearchTerm}' term...");
+            var records = this.fileIndexedStorage.SearchByLogType(commandOrSearchTerm, this.configuration.PageSize);
+            this.PrintRecords(records);
         }
 
         private void PrintHelpInfo()
         {
-            Console.WriteLine();
             Console.WriteLine($"Well Log Finder ({this.assemblyVersion})");
             Console.WriteLine("Usage: Enter a command or a search term for log type.");
 
