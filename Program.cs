@@ -21,7 +21,7 @@ namespace LasFinder
 
             if (string.IsNullOrWhiteSpace(lasFilesSourceFolder))
             {
-                Console.WriteLine($"LAS file folder is not provided ('lasFilesFolder' property) in the settings file located at '{JsonConfiguration.SuggestJsonFilePath()}'");
+                Console.WriteLine($"LAS file folder is not provided ('LasFiles' property) in the settings file located at '{JsonConfiguration.SuggestJsonFilePath()}'");
                 return;
             }
 
