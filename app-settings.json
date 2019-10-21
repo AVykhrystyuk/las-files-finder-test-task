@@ -2,7 +2,7 @@
     "pageSize": 100,
     "printMode": "Table",
     "lasFiles": {
-        "sourceFolder": "LasFilesFolder",
+        "sourceFolder": "LasFiles",
         "logTypeField": "LTYP"
     }
 }
