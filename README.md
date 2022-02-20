@@ -1,16 +1,17 @@
 # LAS file finder
 
+
+###  Prerequisites
+-  Download and place [LAS (Log ASCII Standard)](https://en.wikipedia.org/wiki/Log_ASCII_Standard) files in different subfolders under running assembly
+
+
 ###  Requirements:
 
--   Implement the following using C# / .NET
--   Get attached [Log ASCII Standard (LAS)](https://en.wikipedia.org/wiki/Log_ASCII_Standard) files
--   Place LAS files in different subfolders under running assembly
--   The solution should
-    -   find all LAS files in subfolders
-    -   find all logs in LAS files
-    -   index types of logs found inside LAS files
-    -   provide simple UI or command line
--   Using UI or command line, it should be possible to search by log type, and give a result as a list of LAS files that have this log type inside
+-   The solution should:
+    -   find all LAS files in the subfolders (see Prerequisites section)
+    -   find all logs in the files found
+    -   index types of the logs found
+    -   provide a simple UI or command line that allows to search by log type, and give a result as a list of LAS files that have this log type inside
 -   (optional) Use Lucene.NET
 
 ## How to run
