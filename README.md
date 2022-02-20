@@ -1,4 +1,4 @@
-# LAS file finder
+# LAS files finder
 
 
 ###  Prerequisites
@@ -23,9 +23,9 @@ In project folder:
 
 ## How to use
 
-Once started, application will read and index LAS files from the folder specified in `app-settings.json`.
+Once started, application will read and index all LAS files from the folder specified in `app-settings.json`.
 
-Type a search term for log type and press `enter`:
+To search LAS files by the type of the log, type a search term and press `enter`:
 ```bash
 log-finder> pa
 Searching files for 'pa' term...
