@@ -1,4 +1,4 @@
-# LAS files finder
+# test-task: LAS files finder
 
 
 ###  Prerequisites
